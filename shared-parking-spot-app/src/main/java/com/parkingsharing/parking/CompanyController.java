@@ -1,66 +1,47 @@
 package com.parkingsharing.parking;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/companies")
 public class CompanyController {
-
-    private final CompanyRepository companyRepository;
-
-    public CompanyController(CompanyRepository companyRepository) {
-        this.companyRepository = companyRepository;
-    }
-
-
+    private List<Company> companies = new ArrayList<>(Arrays.asList(new Company(1, "IBM", "example company 1"), new Company(2, "Intel", "example company 2")));
     @GetMapping
-    public ResponseEntity getAllCompanies() {
-        return ResponseEntity.ok(this.companyRepository.findAll());
+    public List<Company> getAllCompanies() {
+        return companies;
     }
-
-
-    @PostMapping("")
-    public Company addCompany(@RequestBody Company company) {
-        return companyRepository.save(company);
-    }
-
 
     @GetMapping("/{id}")
-    public Company getCompanyById(@PathVariable Long id) {
-        return companyRepository.findById(id).orElse(null);
+    public Company getCompanyById(@PathVariable("id") int id) {
+        for(Company company : companies){
+            if(company.getId() == id){
+                return company;
+            }
+        }
+        return null;
     }
 
+    @PostMapping("")
+    public void addCompany(@RequestBody Company company) {
+        companies.add(company);
+    }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateCompany(@PathVariable Long id, @RequestBody Company updatedCompany) {
-        Optional<Company> companyOptional = companyRepository.findById(id);
-        if (!companyOptional.isPresent()) {
-            return ResponseEntity.notFound().build();
+    public void updateCompany(@PathVariable("id") int id, @RequestBody Company updatedCompany) {
+        Company company = getCompanyById(id);
+        if (company != null) {
+            company.setName(updatedCompany.getName());
+            company.setDescription(updatedCompany.getDescription());
         }
-
-        Company existingCompany = companyOptional.get();
-        existingCompany.setName(updatedCompany.getName());
-        existingCompany.setDescription(updatedCompany.getDescription());
-
-        companyRepository.save(existingCompany);
-
-        return ResponseEntity.ok(existingCompany);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteCompany(@PathVariable Long id) {
-        Optional<Company> companyOptional = companyRepository.findById(id);
-        if (!companyOptional.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        companyRepository.deleteById(id);
-
-        return ResponseEntity.ok().build();
+    public void deleteCompany(@PathVariable("id") int id) {
+        Company companyToDelete = getCompanyById(id);
+        companies.remove(companyToDelete);
     }
-
 }
-
