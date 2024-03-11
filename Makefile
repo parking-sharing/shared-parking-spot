@@ -1,9 +1,8 @@
 run:
 	cd shared-parking-spot-app/ && \
-    mvn clean install && \
-    cd .. && \
-    docker build -t shared-parking-spot . && \
-    docker run -d -p 7777:7777 shared-parking-spot
+    mvn install -DskipTests=true && \
+    docker-compose up
 clean:
 	cd shared-parking-spot-app/ && \
+	docker-compose down && \
     mvn clean
