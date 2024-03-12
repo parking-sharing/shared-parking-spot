@@ -5,7 +5,7 @@ run:
 	cd shared-parking-spot-app && \
 	mvn clean install -DskipTests && \
 	docker build -t shared-parking-spot . && \
-	docker run -p 7777:7777 --network=shared-parking-spot_system --name app shared-parking-spot
+	docker run --rm -p 7777:7777 --network=shared-parking-spot_system --name app shared-parking-spot
 clean:
 	docker ps -a | grep app && docker stop app && docker rm app || true
 	cd shared-parking-spot-app/ && \
