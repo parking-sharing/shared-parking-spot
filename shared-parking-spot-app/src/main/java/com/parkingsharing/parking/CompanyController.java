@@ -45,3 +45,4 @@ public class CompanyController {
         companies.remove(companyToDelete);
     }
 }
+
