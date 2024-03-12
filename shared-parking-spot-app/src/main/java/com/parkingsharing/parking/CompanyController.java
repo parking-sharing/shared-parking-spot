@@ -18,7 +18,7 @@ public class CompanyController {
     @GetMapping("/{id}")
     public Company getCompanyById(@PathVariable("id") int id) {
         for(Company company : companies){
-            if(company.getId() == id){
+            if(company.id == id){
                 return company;
             }
         }
@@ -34,8 +34,8 @@ public class CompanyController {
     public void updateCompany(@PathVariable("id") int id, @RequestBody Company updatedCompany) {
         Company company = getCompanyById(id);
         if (company != null) {
-            company.setName(updatedCompany.getName());
-            company.setDescription(updatedCompany.getDescription());
+            company.name = updatedCompany.name;
+            company.description = updatedCompany.description;
         }
     }
 
