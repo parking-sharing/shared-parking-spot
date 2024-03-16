@@ -3,7 +3,7 @@ prepare:
 	bash wait.sh
 run:
 	cd shared-parking-spot-app && \
-	mvn clean install -DskipTests && \
+	mvn clean install -DskipDocumentation=true -DskipTests && \
 	docker build -t shared-parking-spot . && \
 	docker run --rm -p 7777:7777 --network=shared-parking-spot_system --name app shared-parking-spot
 clean:
@@ -12,4 +12,6 @@ clean:
 	docker-compose down && \
     mvn clean
 swagger:
-	mvn clean install -DskipDocsGeneration=false -DskipTests
+	cd shared-parking-spot-app && \
+	mvn clean install -DskipDocumentation=false -DskipTests && \
+	mv target/openapi.yaml ../api/openapi.yaml

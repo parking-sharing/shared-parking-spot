@@ -16,6 +16,7 @@
 	<description>Spring Boot Project for shared parking spot</description>
 	<properties>
 		<java.version>17</java.version>
+		<skipDocumentation>true</skipDocumentation>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -45,42 +46,28 @@
 					<mainClass>com.parkingsharing.parking.ParkingApplication</mainClass>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-maven-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<skip>${skipDocumentation}</skip>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<apiDocsUrl>http://localhost:7777/api-docs.yaml</apiDocsUrl>
+					<outputFileName>openapi.yaml</outputFileName>
+					<outputDir>${project.build.directory}</outputDir>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-
-	<profiles>
-		<profile>
-			<id>generate-openapi-docs</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-				<property>
-					<name>!skipDocsGeneration</name>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.springdoc</groupId>
-						<artifactId>springdoc-openapi-maven-plugin</artifactId>
-						<version>1.4</version>
-						<executions>
-							<execution>
-								<phase>generate-resources</phase>
-								<goals>
-									<goal>generate</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<apiDocsUrl>http://localhost:7777/api-docs</apiDocsUrl>
-							<outputFileName>openapi.json</outputFileName>
-							<outputDir>${project.build.directory}</outputDir>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
 
 </project>
