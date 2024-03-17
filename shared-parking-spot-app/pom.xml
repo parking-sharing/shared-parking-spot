@@ -15,6 +15,9 @@
 	<name>app</name>
 	<description>Spring Boot Project for shared parking spot</description>
 	<properties>
+		<hibernate.version>5.4.30.Final</hibernate.version>
+		<postgresql.version>42.7.2</postgresql.version>
+		<sql.version>1.5</sql.version>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
@@ -28,6 +31,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.7.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -38,6 +47,32 @@
 				<configuration>
 					<mainClass>com.parkingsharing.parking.ParkingApplication</mainClass>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.hibernate.tool</groupId>
+				<artifactId>hibernate-tools-maven</artifactId>
+				<version>6.4.4.Final</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.postgresql</groupId>
+						<artifactId>postgresql</artifactId>
+						<version>${postgresql.version}</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<id>entity-generation</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>hbm2java</goal>
+						</goals>
+						<configuration>
+							<ejb3>true</ejb3>
+							<propertyFile>src/main/resources/hibernate/hibernate.properties</propertyFile>
+
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
