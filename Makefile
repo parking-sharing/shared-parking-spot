@@ -3,7 +3,7 @@ prepare:
 	bash wait.sh
 run:
 	cd shared-parking-spot-app && \
-	mvn clean install -DskipTests && \
+	mvn clean install -DskipDocumentation=true -DskipTests && \
 	docker build -t shared-parking-spot . && \
 	docker run --rm -p 7777:7777 --network=shared-parking-spot_system --name app shared-parking-spot
 clean:
@@ -14,3 +14,6 @@ clean:
 sql:
 	cd shared-parking-spot-app && \
 	mvn clean install -DskipTests -DgenerateEntriesFromDB=true
+swagger:
+	cd shared-parking-spot-app && \
+	mvn clean install -DskipDocumentation=false -DskipTests
