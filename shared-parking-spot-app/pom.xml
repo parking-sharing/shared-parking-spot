@@ -29,12 +29,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.2.0</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -49,7 +48,7 @@
 			<plugin>
 				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-maven-plugin</artifactId>
-				<version>1.4</version>
+				<version>${springdoc.version}</version>
 				<executions>
 					<execution>
 						<phase>integration-test</phase>
@@ -64,7 +63,7 @@
 				<configuration>
 					<apiDocsUrl>http://localhost:7777/api-docs.yaml</apiDocsUrl>
 					<outputFileName>openapi.yaml</outputFileName>
-					<outputDir>${project.build.directory}</outputDir>
+					<outputDir>../api</outputDir>
 				</configuration>
 			</plugin>
 		</plugins>

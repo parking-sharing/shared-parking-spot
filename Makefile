@@ -13,5 +13,4 @@ clean:
     mvn clean
 swagger:
 	cd shared-parking-spot-app && \
-	mvn clean install -DskipDocumentation=false -DskipTests && \
-	mv target/openapi.yaml ../api/openapi.yaml
+	mvn clean install -DskipDocumentation=false -DskipTests
