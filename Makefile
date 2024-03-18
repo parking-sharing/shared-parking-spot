@@ -13,6 +13,4 @@ clean:
     mvn clean
 sql:
 	cd shared-parking-spot-app && \
-	mvn clean install -DskipTests -DgenerateEntriesFromDB=true && \
-	find "target/generated-sources/" -name "*.java" -exec sed -i '' '1s/^/package com.parkingsharing.sql;\n/' {} \; && \
-	find target/generated-sources/ -name "*.java" -exec mv {} src/main/java/com/parkingsharing/sql \;
+	mvn clean install -DskipTests -DgenerateEntriesFromDB=true
