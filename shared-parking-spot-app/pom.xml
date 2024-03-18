@@ -11,6 +11,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+
 	<version>0.0.1-SNAPSHOT</version>
 	<name>app</name>
 	<description>Spring Boot Project for shared parking spot</description>
@@ -19,6 +20,7 @@
 		<postgresql.version>42.7.2</postgresql.version>
 		<sql.version>1.5</sql.version>
 		<java.version>17</java.version>
+		<skipGenerateCode>true</skipGenerateCode>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -37,6 +39,12 @@
 			<artifactId>postgresql</artifactId>
 			<version>42.7.2</version>
 		</dependency>
+
+		<dependency>
+			<groupId>jakarta.persistence</groupId>
+			<artifactId>jakarta.persistence-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -48,33 +56,47 @@
 					<mainClass>com.parkingsharing.parking.ParkingApplication</mainClass>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.hibernate.tool</groupId>
-				<artifactId>hibernate-tools-maven</artifactId>
-				<version>6.4.4.Final</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.postgresql</groupId>
-						<artifactId>postgresql</artifactId>
-						<version>${postgresql.version}</version>
-					</dependency>
-				</dependencies>
-				<executions>
-					<execution>
-						<id>entity-generation</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>hbm2java</goal>
-						</goals>
-						<configuration>
-							<ejb3>true</ejb3>
-							<propertyFile>src/main/resources/hibernate/hibernate.properties</propertyFile>
-
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>generate-code</id>
+			<activation>
+				<property>
+					<name>!skipGenerateCode</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.hibernate.tool</groupId>
+						<artifactId>hibernate-tools-maven</artifactId>
+						<version>6.4.4.Final</version>
+						<dependencies>
+							<dependency>
+								<groupId>org.postgresql</groupId>
+								<artifactId>postgresql</artifactId>
+								<version>${postgresql.version}</version>
+							</dependency>
+						</dependencies>
+						<executions>
+							<execution>
+								<id>entity-generation</id>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>hbm2java</goal>
+								</goals>
+								<configuration>
+									<ejb3>true</ejb3>
+									<propertyFile>src/main/resources/hibernate/hibernate.properties</propertyFile>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
