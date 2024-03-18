@@ -11,6 +11,9 @@ clean:
 	cd shared-parking-spot-app/ && \
 	docker-compose down && \
     mvn clean
+sql:
+	cd shared-parking-spot-app && \
+	mvn clean install -DskipTests -DgenerateEntriesFromDB=true
 swagger:
 	cd shared-parking-spot-app && \
 	mvn clean install -DskipDocumentation=false -DskipTests
