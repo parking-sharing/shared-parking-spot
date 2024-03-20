@@ -47,6 +47,11 @@
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -78,6 +83,11 @@
 					<outputFileName>openapi.yaml</outputFileName>
 					<outputDir>../api</outputDir>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>10.8.1</version>
 			</plugin>
 		</plugins>
 	</build>
