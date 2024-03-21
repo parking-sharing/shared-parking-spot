@@ -1,5 +1,20 @@
 server:
   port: 7777
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sharedparkingspot
+    username: user
+    password: password
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 5
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
 springdoc:
   api-docs:
     path: /api-docs
