@@ -24,7 +24,8 @@
         <sql.version>1.5</sql.version>
         <springdoc-openapi-starter-webmvc-ui.version>2.2.0</springdoc-openapi-starter-webmvc-ui.version>
         <springdoc.version>1.4</springdoc.version>
-<!--        <spring.data.jpa>3.2.4</spring.data.jpa>-->
+        <spring.data.jpa>3.1.0</spring.data.jpa>
+        <spring.boot.starter>3.1.0</spring.boot.starter>
     </properties>
 
     <dependencyManagement>
@@ -45,11 +46,17 @@
                 <version>${hibernate-tools-maven.version}</version>
             </dependency>
 
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-starter-data-jpa</artifactId>-->
-<!--                <version>${spring.data.jpa}</version>-->
-<!--            </dependency>-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>${spring.data.jpa}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${spring.boot.starter}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.springdoc</groupId>
