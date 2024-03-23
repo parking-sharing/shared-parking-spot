@@ -17,3 +17,6 @@ sql:
 swagger:
 	cd shared-parking-spot-app && \
 	mvn clean install -DskipDocumentation=false -DskipTests
+migrate:
+	cd shared-parking-spot-app && \
+    mvn spring-boot:run -Dconsole=true
