@@ -19,4 +19,4 @@ swagger:
 	mvn clean install -DskipDocumentation=false -DskipTests
 migrate:
 	cd shared-parking-spot-app && \
-    mvn spring-boot:run -Dconsole=true
+    mvn spring-boot:run -Dconsole=true -Dspring-boot.run.profiles=console-application
