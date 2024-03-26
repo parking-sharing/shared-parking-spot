@@ -1,4 +1,4 @@
-package com.consoleApp;
+package com.parkingshare.console;
 
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
