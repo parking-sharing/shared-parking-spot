@@ -1,5 +1,4 @@
 package com.parkingsharing.sql;
-// Generated 26 mar 2024, 16:32:33 by Hibernate Tools 6.4.4.Final
 
 
 import jakarta.persistence.Column;
