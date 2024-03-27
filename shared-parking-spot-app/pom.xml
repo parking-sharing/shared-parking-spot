@@ -154,7 +154,7 @@
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>spring-boot-maven-plugin</artifactId>
 						<configuration>
-							<mainClass>com.consoleApp.SpringBootConsoleApplication</mainClass>
+							<mainClass>com.parkingshare.console.SpringBootConsoleApplication</mainClass>
 						</configuration>
 						<executions>
 							<execution>

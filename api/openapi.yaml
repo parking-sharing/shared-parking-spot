@@ -45,6 +45,10 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Company'
     delete:
       tags:
       - company-controller
@@ -86,6 +90,10 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Company'
   /welcome:
     get:
       tags:
