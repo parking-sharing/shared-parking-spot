@@ -1,7 +1,11 @@
 package com.parkingsharing.parking;
 
 import com.parkingsharing.sql.Company;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,36 +18,48 @@ public class CompanyController {
     private CompanyRepository companyRepository;
 
     @GetMapping
-    public List<Company> getAllCompanies() {
-        return companyRepository.findAll();
+    public ResponseEntity<List<Company>> getAllCompanies() {
+        List<Company> companies = companyRepository.findAll();
+        return new ResponseEntity<>(companies, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public Company getCompanyById(@PathVariable("id") int id) {
-        return companyRepository.findById(id).orElse(null);
+    public ResponseEntity<Company> getCompanyById(@PathVariable("id") int id) {
+        Company company = companyRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Company not found with id: " + id));
+        return new ResponseEntity<>(company, HttpStatus.OK);
     }
 
-    @PostMapping("")
-    public Company addCompany(@RequestBody Company company) {
-        return companyRepository.save(company);
+    @PostMapping
+    public ResponseEntity<?> addCompany(@RequestBody Company company) {
+        try {
+            Company savedCompany = companyRepository.save(company);
+            return new ResponseEntity<>(savedCompany, HttpStatus.CREATED);
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body("{\"status_code\": 409, \"error\": \"Company must be unique\"}");
+        }
     }
-
     @PutMapping("/{id}")
-    public Company updateCompany(@PathVariable("id") int id, @RequestBody Company updatedCompany) {
-        return companyRepository.findById(id)
-                .map(company -> {
-                    company.setName(updatedCompany.getName());
-                    company.setDescription(updatedCompany.getDescription());
-                    return companyRepository.save(company);
-                }).orElseGet(() -> {
-                    updatedCompany.setId(id);
-                    return companyRepository.save(updatedCompany);
-                });
+    public ResponseEntity<?> updateCompany(@PathVariable("id") int id, @RequestBody Company updatedCompany) {
+        Company company = companyRepository.findById(id)
+                .map(existingCompany -> {
+                    existingCompany.setName(updatedCompany.getName());
+                    existingCompany.setDescription(updatedCompany.getDescription());
+                    return companyRepository.save(existingCompany);
+                }).orElseThrow(() -> new EntityNotFoundException("Company not found with id: " + id));
+
+        return new ResponseEntity<>(company, HttpStatus.OK);
     }
+
 
     @DeleteMapping("/{id}")
-    public void deleteCompany(@PathVariable("id") int id) {
-        companyRepository.deleteById(id);
+    public ResponseEntity<?> deleteCompany(@PathVariable("id") int id) {
+        return companyRepository.findById(id).map(company -> {
+            companyRepository.deleteById(id);
+            return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        }).orElseThrow(() -> new EntityNotFoundException("Company not found with id: " + id));
     }
 }
 
