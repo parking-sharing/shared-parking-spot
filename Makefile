@@ -15,7 +15,8 @@ sql:
 	cd shared-parking-spot-app && \
 	mvn clean install -DskipTests -DgenerateEntriesFromDB=true && \
 	rm src/main/java/com/parkingsharing/sql/FlywaySchemaHistory.java && \
-	sed -i '' '2d' src/main/java/com/parkingsharing/sql/Company.java
+	cd .. && \
+	bash delete_date.sh
 swagger:
 	cd shared-parking-spot-app && \
 	mvn clean install -DskipDocumentation=false -DskipTests
